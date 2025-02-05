@@ -1,14 +1,36 @@
-import { View, type ViewProps } from 'react-native';
+import { View, ViewProps } from 'react-native';
+import { useTheme } from '@react-navigation/native';
+import { useWeather } from '@/context/WeatherContext';
 
-import { useThemeColor } from '@/hooks/useThemeColor';
+interface ThemedViewProps extends ViewProps {
+  lightBg?: string;
+  darkBg?: string;
+  transparent?: boolean;
+}
 
-export type ThemedViewProps = ViewProps & {
-  lightColor?: string;
-  darkColor?: string;
-};
-
-export function ThemedView({ style, lightColor, darkColor, ...otherProps }: ThemedViewProps) {
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
-
-  return <View style={[{ backgroundColor }, style]} {...otherProps} />;
+export function ThemedView({ 
+  style, 
+  lightBg,
+  darkBg,
+  transparent = false,
+  ...props 
+}: ThemedViewProps) {
+  const { colors } = useTheme();
+  const { settings } = useWeather();
+  
+  return (
+    <View
+      style={[
+        {
+          backgroundColor: transparent 
+            ? 'transparent' 
+            : (darkBg && settings.darkMode 
+                ? darkBg 
+                : lightBg || colors.background),
+        },
+        style,
+      ]}
+      {...props}
+    />
+  );
 }

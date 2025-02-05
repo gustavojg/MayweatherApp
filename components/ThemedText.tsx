@@ -1,34 +1,31 @@
-import { Text, type TextProps, StyleSheet } from 'react-native';
+import { Text, TextProps, StyleSheet } from "react-native";
+import { useTheme } from "@react-navigation/native";
 
-import { useThemeColor } from '@/hooks/useThemeColor';
-
-export type ThemedTextProps = TextProps & {
+interface ThemedTextProps extends TextProps {
+  type?: "default" | "title" | "subtitle" | "defaultSemiBold" | "bigText";
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
-};
+}
 
 export function ThemedText({
   style,
+  type = "default",
   lightColor,
   darkColor,
-  type = 'default',
-  ...rest
+  ...props
 }: ThemedTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const { colors } = useTheme();
 
   return (
     <Text
       style={[
-        { color },
-        type === 'default' ? styles.default : undefined,
-        type === 'title' ? styles.title : undefined,
-        type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
-        type === 'subtitle' ? styles.subtitle : undefined,
-        type === 'link' ? styles.link : undefined,
+        styles[type],
+        {
+          color: lightColor || colors.text,
+        },
         style,
       ]}
-      {...rest}
+      {...props}
     />
   );
 }
@@ -36,25 +33,26 @@ export function ThemedText({
 const styles = StyleSheet.create({
   default: {
     fontSize: 16,
-    lineHeight: 24,
+    fontFamily: "System",
   },
   defaultSemiBold: {
     fontSize: 16,
-    lineHeight: 24,
-    fontWeight: '600',
+    fontFamily: "System",
+    fontWeight: "600",
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    lineHeight: 32,
+    fontSize: 24,
+    fontFamily: "System",
+    fontWeight: "bold",
   },
   subtitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: "System",
+    fontWeight: "600",
   },
-  link: {
-    lineHeight: 30,
-    fontSize: 16,
-    color: '#0a7ea4',
+  bigText: {
+    fontSize: 50,
+    fontFamily: "System",
+    fontWeight: "bold",
   },
 });

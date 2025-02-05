@@ -1,39 +1,40 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { WeatherProvider, useWeather } from '@/context/WeatherContext';
+import colors from "@/theme/colors";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+function AppContent() {
+  const { settings } = useWeather();
+  const theme = settings.darkMode ? DarkTheme : DefaultTheme;
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
+  const customTheme = {
+    ...theme,
+    colors: {
+      ...theme.colors,
+      background: settings.darkMode ? colors.dark.background : colors.light.background,
+      text: settings.darkMode ? colors.dark.text : colors.light.text,
+      primary: settings.darkMode ? colors.dark.primary : colors.light.primary,
+      card: settings.darkMode ? colors.dark.card : colors.light.card,
+      border: settings.darkMode ? colors.dark.border : colors.light.border,
+    },
+  };
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={customTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
       </Stack>
-      <StatusBar style="auto" />
+      <StatusBar style={settings.darkMode ? 'light' : 'dark'} />
     </ThemeProvider>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <WeatherProvider>
+      <AppContent />
+    </WeatherProvider>
   );
 }
