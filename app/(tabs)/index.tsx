@@ -11,6 +11,7 @@ import {
 import { useWeather } from "@/context/WeatherContext";
 import { useAutoRefresh } from "@/hooks/useAutoRefresh";
 import colors from "@/theme/colors";
+import WeatherMood from "@/components/WeatherMood";
 
 export default function WeatherScreen() {
   const insets = useSafeAreaInsets();
@@ -44,7 +45,7 @@ export default function WeatherScreen() {
       <View style={[styles.content, { paddingTop: insets.top }]}>
         <ThemedView style={styles.container}>
           <ThemedText type="title" style={styles.title}>
-            Weather
+            May-Weather
           </ThemedText>
 
           <LocationAutocomplete
@@ -55,7 +56,10 @@ export default function WeatherScreen() {
           {error && <ThemedText style={styles.error}>{error}</ThemedText>}
 
           {weatherData ? (
-            <WeatherDisplay data={weatherData} />
+            <>
+              <WeatherDisplay data={weatherData} />
+              <WeatherMood />
+            </>
           ) : (
             <ThemedView style={styles.placeholder}>
               <ThemedText type="subtitle">

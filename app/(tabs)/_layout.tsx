@@ -34,7 +34,7 @@ export default function TabLayout() {
         name="index"
         options={{
           headerShown: false,
-          title: 'Weather',
+          title: 'MayWeather',
           tabBarIcon: ({ color, size }) => (
             <Ionicons 
               name={getTabIcon() as any} 
