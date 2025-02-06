@@ -63,10 +63,10 @@ export function SuggestionList({
               {!query && (
                 <ThemedText style={styles.historyTitle}>Suggestions</ThemedText>
               )}
-              {suggestions.map((location) => {
+              {suggestions.map((location, index) => {
                 return (
                   <TouchableOpacity
-                    key={`${location.id}-${location.name}-${location.country}`}
+                    key={`${location.id}-${location.name}-${index}`}
                     style={styles.suggestionItem}
                     onPress={() => {
                       onSelect(location.name);
