@@ -1,2 +1,4 @@
-export const OPENWEATHER_API_KEY = '900f3fd9e2195aca34b67322369569b9';
-export const WEATHERAPI_KEY = '7d5f91fdd6ed4a87a6061834250202';
+import Constants from "expo-constants";
+
+export const OPENWEATHER_API_KEY = Constants.expoConfig?.extra?.OPENWEATHER_API_KEY;
+export const WEATHERAPI_KEY = Constants.expoConfig?.extra?.WEATHERAPI_KEY;

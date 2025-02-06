@@ -2,6 +2,7 @@ import * as React from "react";
 import { render, waitFor } from "@/utils/test-utils";
 import WeatherDisplay from "../WeatherDisplay";
 import { WeatherData } from "@/types/weather";
+import { useWeather } from "@/context/WeatherContext";
 
 const mockWeatherData: WeatherData = {
   temperature: 25,
@@ -19,8 +20,6 @@ jest.mock("@/context/WeatherContext", () => {
     useWeather: jest.fn(),
   };
 });
-
-import { useWeather } from "@/context/WeatherContext";
 
 describe("WeatherDisplay", () => {
   beforeEach(() => {

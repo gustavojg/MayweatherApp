@@ -18,12 +18,22 @@ export function WeatherDetails({ humidity, windSpeed }: Props) {
   return (
     <ThemedView style={styles.row}>
       <ThemedView style={styles.detailItem}>
-        <Ionicons name="water-outline" size={24} color={iconColor} />
+        <Ionicons
+          testID="weather-humidity-icon"
+          name="water-outline"
+          size={24}
+          color={iconColor}
+        />
         <ThemedText testID="weather-humidity">{humidity}%</ThemedText>
       </ThemedView>
 
       <ThemedView style={styles.detailItem}>
-        <Ionicons name="navigate-outline" size={24} color={iconColor} />
+        <Ionicons
+          testID="weather-wind-speed-icon"
+          name="navigate-outline"
+          size={24}
+          color={iconColor}
+        />
         <ThemedText testID="weather-wind-speed">{windSpeed} km/h</ThemedText>
       </ThemedView>
     </ThemedView>
